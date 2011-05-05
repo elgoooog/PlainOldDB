@@ -32,5 +32,7 @@ public class CrudObjectTest {
     public void testDelete() throws Exception {
         Planet planet = new Planet("Earth", 100, 1000);
         planet.delete();
+        Planet planet2 = new Planet("Mars", 1, 1);
+        planet2.delete();
     }
 }
