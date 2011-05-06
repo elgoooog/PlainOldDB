@@ -1,6 +1,5 @@
 package com.elgoooog.podb.test;
 
-import com.elgoooog.podb.CrudObject;
 import com.elgoooog.podb.annotation.Column;
 import com.elgoooog.podb.annotation.PrimaryKey;
 import com.elgoooog.podb.annotation.Table;
@@ -11,14 +10,20 @@ import com.elgoooog.podb.annotation.Table;
  *         Time: 10:53 PM
  */
 @Table(name = "Planet")
-public class AnotherPlanet extends CrudObject {
+public class AnotherPlanet {
     @PrimaryKey
     @Column(name = "name")
     private String planetName;
+
     @Column(name = "radius")
     private int planetRadius;
+
     @Column(name = "population")
     private int planetPopulation;
+
+    public AnotherPlanet() {
+
+    }
 
     public AnotherPlanet(String n, int r, int p) {
         planetName = n;
@@ -36,5 +41,9 @@ public class AnotherPlanet extends CrudObject {
 
     public int getPopulation() {
         return planetPopulation;
+    }
+
+    public String toString() {
+        return "AnotherPlanet[name:" + planetName + ",radius:" + planetRadius + ",population:" + planetPopulation + "]";
     }
 }

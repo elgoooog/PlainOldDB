@@ -2,7 +2,12 @@ package com.elgoooog.podb;
 
 import com.elgoooog.podb.test.AnotherPlanet;
 import com.elgoooog.podb.test.Planet;
+import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Collection;
+
+import static junit.framework.Assert.assertEquals;
 
 /**
  * @author Nicholas Hauschild
@@ -10,29 +15,41 @@ import org.junit.Test;
  *         Time: 10:45 PM
  */
 public class CrudObjectTest {
-    @Test
-    public void testCreate_defaultNames() throws Exception {
-        Planet planet = new Planet("Earth", 100, 6000);
-        planet.create();
+    private Database database;
+
+    @Before
+    public void initDatabase() throws Exception {
+        database = DatabaseFactory.getDatabase(Database.MYSQL);
     }
 
     @Test
-    public void testCreate_specifiedNames() throws Exception {
-        AnotherPlanet planet = new AnotherPlanet("Mars", 50, 1);
-        planet.create();
+    public void testCreate_defaultNames() throws Exception {
+        database.create(new Planet("Earth", 500, 1000));
+    }
+
+    @Test
+    public void testCreate_givenNames() throws Exception {
+        database.create(new AnotherPlanet("Mars", 200, 1));
+    }
+
+    @Test
+    public void testRead() throws Exception {
+        Collection<Planet> planets = database.read(Planet.class);
+        assertEquals(2, planets.size());
+        for(Object obj : planets) {
+            System.out.println(obj);
+        }
     }
 
     @Test
     public void testUpdate() throws Exception {
-        Planet planet = new Planet("Earth", 100, 5000);
-        planet.update();
+        database.update(new Planet("Earth", 500, 1000000));
+        database.update(new AnotherPlanet("Mars", 300, 1));
     }
 
     @Test
     public void testDelete() throws Exception {
-        Planet planet = new Planet("Earth", 100, 1000);
-        planet.delete();
-        Planet planet2 = new Planet("Mars", 1, 1);
-        planet2.delete();
+        database.delete(new Planet("Earth", 1,1));
+        database.delete(new AnotherPlanet("Mars", 1,1));
     }
 }
