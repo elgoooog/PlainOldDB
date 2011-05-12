@@ -10,11 +10,11 @@ import java.util.Collection;
 public interface Database {
     public static final String MYSQL = MySQLDatabase.DRIVER;
 
-    void create(Object crudObject);
+    void create(Object object);
 
     <T> Collection<T> read(Class<T> clazz);
 
-    void update(Object crudObject);
+    void update(Object object);
 
-    void delete(Object crudObject);
+    void delete(Object object);
 }

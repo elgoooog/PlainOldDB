@@ -1,5 +1,7 @@
 package com.elgoooog.podb;
 
+import com.elgoooog.podb.loader.ModelLoader;
+import com.elgoooog.podb.loader.TableModelContext;
 import com.elgoooog.podb.test.AnotherPlanet;
 import com.elgoooog.podb.test.Planet;
 import org.junit.Before;
@@ -19,7 +21,9 @@ public class CrudObjectTest {
 
     @Before
     public void initDatabase() throws Exception {
-        database = DatabaseFactory.getDatabase(Database.MYSQL);
+        ModelLoader loader = new ModelLoader();
+        TableModelContext context = loader.preLoad("config/podb.xml");
+        database = new MySQLDatabase(context);
     }
 
     @Test
@@ -36,8 +40,8 @@ public class CrudObjectTest {
     public void testRead() throws Exception {
         Collection<Planet> planets = database.read(Planet.class);
         assertEquals(2, planets.size());
-        for(Object obj : planets) {
-            System.out.println(obj);
+        for(Planet planet : planets) {
+            System.out.println(planet);
         }
     }
 
