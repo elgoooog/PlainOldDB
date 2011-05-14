@@ -124,7 +124,6 @@ public class ModelLoader {
     }
 
     protected Model preLoadClass(Class<?> clazz) {
-        System.out.println("Preloading class: " + clazz.getName());
         return loadClass(clazz);
     }
 

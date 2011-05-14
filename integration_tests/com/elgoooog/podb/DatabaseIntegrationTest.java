@@ -1,7 +1,5 @@
 package com.elgoooog.podb;
 
-import com.elgoooog.podb.loader.ModelLoader;
-import com.elgoooog.podb.loader.TableModelContext;
 import com.elgoooog.podb.test.AnotherPlanet;
 import com.elgoooog.podb.test.Planet;
 import org.junit.Before;
@@ -16,14 +14,12 @@ import static junit.framework.Assert.assertEquals;
  *         Date: 5/4/11
  *         Time: 10:45 PM
  */
-public class CrudObjectTest {
+public class DatabaseIntegrationTest {
     private Database database;
 
     @Before
     public void initDatabase() throws Exception {
-        ModelLoader loader = new ModelLoader();
-        TableModelContext context = loader.preLoad("config/podb.xml");
-        database = new MySQLDatabase(context);
+        database = new MySQLDatabase();
     }
 
     @Test
@@ -40,9 +36,6 @@ public class CrudObjectTest {
     public void testRead() throws Exception {
         Collection<Planet> planets = database.read(Planet.class);
         assertEquals(2, planets.size());
-        for(Planet planet : planets) {
-            System.out.println(planet);
-        }
     }
 
     @Test

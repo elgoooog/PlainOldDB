@@ -41,4 +41,20 @@ public class Column {
     public void setPrimaryKey(boolean primaryKey) {
         isPrimaryKey = primaryKey;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if(this == other) {
+            return true;
+        } else if(other instanceof Column) {
+            Column o = (Column) other;
+            return dbColumn.equals(o.dbColumn) && field.equals(o.field) && isPrimaryKey == o.isPrimaryKey;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return dbColumn.hashCode() + field.hashCode();
+    }
 }

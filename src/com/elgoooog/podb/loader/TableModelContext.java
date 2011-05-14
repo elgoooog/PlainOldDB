@@ -31,4 +31,8 @@ public class TableModelContext {
     public Model getModel(Object object) {
         return getModel(object.getClass());
     }
+
+    public Map<Class<?>, Model> getModelMap() {
+        return modelMap;
+    }
 }
