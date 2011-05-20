@@ -2,3 +2,4 @@
 *.class
 *.iml
 *.properties
+lib/mysql-connector-java*.jar
