@@ -1,3 +1,6 @@
 PlainOldDB
 
 PlainOldDB (podb) is a simple CRUD ORM for Java.
+
+Supported Databases:
+ - MySQL -- To use MySQL, you need to get the MySQL JDBC Connector .jar and add it to the project's classpath.
