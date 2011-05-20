@@ -11,12 +11,13 @@ import java.util.Properties;
  */
 public class PropertyLoader {
     static {
-        InputStream is = ClassLoader.getSystemResourceAsStream("local.properties");
-        Properties properties = new Properties();
+        InputStream is = PropertyLoader.class.getResourceAsStream("/properties/local.properties");
+        Properties properties = System.getProperties();
         try {
             properties.load(is);
         } catch(IOException e) {
             throw new RuntimeException(e);
         }
+        System.setProperties(properties);
     }
 }
