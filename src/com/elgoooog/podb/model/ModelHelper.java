@@ -1,4 +1,4 @@
-package com.elgoooog.podb.loader;
+package com.elgoooog.podb.model;
 
 import com.elgoooog.podb.annotation.PrimaryKey;
 import com.elgoooog.podb.annotation.Table;
@@ -47,13 +47,15 @@ public class ModelHelper {
                 continue;
             }
 
-            boolean isPrimaryKey = annotations.get(PrimaryKey.class) != null;
+            PrimaryKey primaryKey = annotations.get(PrimaryKey.class);
+            boolean isPrimaryKey = primaryKey != null;
+            boolean isAutoIncrement = isPrimaryKey && primaryKey.autoIncrement();
 
             String columnName = columnAnnotation.name();
             if("".equals(columnName)) {
                 columnName= field.getName();
             }
-            columns.add(new Column(columnName, field, isPrimaryKey));
+            columns.add(new Column(columnName, field, isPrimaryKey, isAutoIncrement));
         }
         return columns;
     }

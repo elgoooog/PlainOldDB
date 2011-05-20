@@ -1,4 +1,4 @@
-package com.elgoooog.podb.loader;
+package com.elgoooog.podb.model;
 
 import java.util.List;
 

@@ -1,6 +1,8 @@
 package com.elgoooog.podb.loader;
 
+import com.elgoooog.podb.model.Model;
 import com.elgoooog.podb.test.AnotherPlanet;
+import com.elgoooog.podb.test.JavaTypes;
 import com.elgoooog.podb.test.Planet;
 import org.junit.Test;
 
@@ -30,9 +32,10 @@ public class ModelLoaderTest {
     public void preLoadPackagesTest() throws Exception {
         ModelLoader modelLoader = new ModelLoader();
         List<Class<?>> classes = modelLoader.preLoadPackages(Collections.singletonList("com.elgoooog.podb.test"));
-        assertEquals(2, classes.size());
+        assertEquals(3, classes.size());
         assertTrue(classes.contains(Planet.class));
         assertTrue(classes.contains(AnotherPlanet.class));
+        assertTrue(classes.contains(JavaTypes.class));
     }
 
     @Test
@@ -40,9 +43,10 @@ public class ModelLoaderTest {
         ModelLoader modelLoader = new ModelLoader();
         List<Class<?>> classes = modelLoader.findClasses(
                 new File("out/test/PlainOldDB/com/elgoooog/podb/test"), "com.elgoooog.podb.test");
-        assertEquals(2, classes.size());
+        assertEquals(3, classes.size());
         assertTrue(classes.contains(Planet.class));
         assertTrue(classes.contains(AnotherPlanet.class));
+        assertTrue(classes.contains(JavaTypes.class));
     }
 
     @Test

@@ -1,5 +1,7 @@
 package com.elgoooog.podb.loader;
 
+import com.elgoooog.podb.model.Model;
+
 import java.util.HashMap;
 import java.util.Map;
 

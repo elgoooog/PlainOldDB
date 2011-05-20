@@ -1,21 +1,21 @@
 package com.elgoooog.podb;
 
 import com.elgoooog.podb.exception.MissingAnnotationException;
-import com.elgoooog.podb.loader.Column;
-import com.elgoooog.podb.loader.Model;
 import com.elgoooog.podb.loader.TableModelContext;
+import com.elgoooog.podb.model.Column;
+import com.elgoooog.podb.model.Model;
+import com.elgoooog.podb.model.SqlData;
+import com.elgoooog.podb.model.fields.IntSqlField;
+import com.elgoooog.podb.model.fields.SqlField;
+import com.elgoooog.podb.model.fields.StringSqlField;
 import com.elgoooog.podb.test.AnotherPlanet;
 import com.elgoooog.podb.test.Planet;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.*;
 
 /**
  * @author Nicholas Hauschild
@@ -56,9 +56,9 @@ public class MySQLDatabaseTest {
         Field blog = Planet.class.getDeclaredField("population");
 
         List<Column> columns = new ArrayList<Column>();
-        columns.add(new Column("blah", blah, false));
-        columns.add(new Column("frog", frog, false));
-        columns.add(new Column("blog", blog, false));
+        columns.add(new Column("blah", blah, false, false));
+        columns.add(new Column("frog", frog, false, false));
+        columns.add(new Column("blog", blog, false, false));
 
         Planet planet = new Planet("halb", 123, 456);
 
@@ -67,9 +67,20 @@ public class MySQLDatabaseTest {
         model.setTable("bomb");
 
         MySQLDatabase database = new MySQLDatabase();
-        String createSql = database.createSql(model, planet);
+        SqlData sqlData = database.createSql(model, planet);
 
-        assertEquals("insert into bomb (blah,frog,blog) values ('halb','123','456');", createSql);
+        assertEquals("insert into bomb (blah,frog,blog) values (?,?,?);", sqlData.getSql());
+        List<SqlField> sqlFields = sqlData.getSqlFields();
+        assertEquals(3, sqlFields.size());
+
+        Set<Class<?>> classes = new HashSet<Class<?>>();
+        for(SqlField field : sqlFields) {
+            classes.add(field.getClass());
+        }
+
+        assertEquals(2, classes.size());
+        assertTrue(classes.contains(StringSqlField.class));
+        assertTrue(classes.contains(IntSqlField.class));
     }
 
     @Test
@@ -90,9 +101,9 @@ public class MySQLDatabaseTest {
         Field blog = Planet.class.getDeclaredField("population");
 
         List<Column> columns = new ArrayList<Column>();
-        columns.add(new Column("blah", blah, false));
-        columns.add(new Column("frog", frog, true));
-        columns.add(new Column("blog", blog, false));
+        columns.add(new Column("blah", blah, false, false));
+        columns.add(new Column("frog", frog, true, false));
+        columns.add(new Column("blog", blog, false, false));
 
         Planet planet = new Planet("halb", 123, 456);
 
@@ -101,9 +112,20 @@ public class MySQLDatabaseTest {
         model.setTable("bomb");
 
         MySQLDatabase database = new MySQLDatabase();
-        String updateSql = database.updateSql(model, planet);
+        SqlData sqlData = database.updateSql(model, planet);
 
-        assertEquals("update bomb set blah='halb',frog='123',blog='456' where frog='123';", updateSql);
+        assertEquals("update bomb set blah=?,frog=?,blog=? where frog=?;", sqlData.getSql());
+        List<SqlField> sqlFields = sqlData.getSqlFields();
+        assertEquals(4, sqlFields.size());
+
+        Set<Class<?>> classes = new HashSet<Class<?>>();
+        for(SqlField field : sqlFields) {
+            classes.add(field.getClass());
+        }
+
+        assertEquals(2, classes.size());
+        assertTrue(classes.contains(StringSqlField.class));
+        assertTrue(classes.contains(IntSqlField.class));
     }
 
     @Test
@@ -113,9 +135,9 @@ public class MySQLDatabaseTest {
         Field blog = Planet.class.getDeclaredField("population");
 
         List<Column> columns = new ArrayList<Column>();
-        columns.add(new Column("blah", blah, false));
-        columns.add(new Column("frog", frog, false));
-        columns.add(new Column("blog", blog, true));
+        columns.add(new Column("blah", blah, false, false));
+        columns.add(new Column("frog", frog, false, false));
+        columns.add(new Column("blog", blog, true, false));
 
         Planet planet = new Planet("halb", 123, 456);
 
@@ -124,53 +146,19 @@ public class MySQLDatabaseTest {
         model.setTable("bomb");
 
         MySQLDatabase database = new MySQLDatabase();
-        String deleteSql = database.deleteSql(model, planet);
+        SqlData sqlData = database.deleteSql(model, planet);
 
-        assertEquals("delete from bomb where blog='456';", deleteSql);
-    }
+        assertEquals("delete from bomb where blog=?;", sqlData.getSql());
+        List<SqlField> sqlFields = sqlData.getSqlFields();
+        assertEquals(1, sqlFields.size());
 
-    @Test
-    public void buildColumnStringTest() throws Exception {
-        Field blah = Planet.class.getDeclaredField("name");
-        Field frog = Planet.class.getDeclaredField("radius");
-        Field blog = Planet.class.getDeclaredField("population");
+        Set<Class<?>> classes = new HashSet<Class<?>>();
+        for(SqlField field : sqlFields) {
+            classes.add(field.getClass());
+        }
 
-        List<Column> columns = new ArrayList<Column>();
-        columns.add(new Column("blah", blah, false));
-        columns.add(new Column("frog", frog, false));
-        columns.add(new Column("blog", blog, false));
-
-        Planet planet = new Planet("halb", 123, 456);
-
-        Model model = new Model();
-        model.setColumns(columns);
-
-        MySQLDatabase database = new MySQLDatabase();
-        String columnString = database.buildColumnString(model, planet);
-
-        assertEquals("(blah,frog,blog) values ('halb','123','456')", columnString);
-    }
-
-    @Test
-    public void buildColumnUpdateStringTest() throws Exception {
-        Field blah = Planet.class.getDeclaredField("name");
-        Field frog = Planet.class.getDeclaredField("radius");
-        Field blog = Planet.class.getDeclaredField("population");
-
-        List<Column> columns = new ArrayList<Column>();
-        columns.add(new Column("blah", blah, false));
-        columns.add(new Column("frog", frog, false));
-        columns.add(new Column("blog", blog, false));
-
-        Planet planet = new Planet("halb", 123, 456);
-
-        Model model = new Model();
-        model.setColumns(columns);
-
-        MySQLDatabase database = new MySQLDatabase();
-        String columnUpdateString = database.buildColumnUpdateString(model, planet);
-
-        assertEquals("blah='halb',frog='123',blog='456'", columnUpdateString);
+        assertEquals(1, classes.size());
+        assertTrue(classes.contains(IntSqlField.class));
     }
 
     @Test
@@ -179,8 +167,8 @@ public class MySQLDatabaseTest {
         Field blah = Planet.class.getDeclaredField("name");
 
         List<Column> columns = new ArrayList<Column>();
-        columns.add(new Column("blah", blah, false));
-        columns.add(new Column("frog", frog, true));
+        columns.add(new Column("blah", blah, false, false));
+        columns.add(new Column("frog", frog, true, false));
 
         Planet planet = new Planet("halb", 123, 456);
 
@@ -188,8 +176,8 @@ public class MySQLDatabaseTest {
         model.setColumns(columns);
 
         MySQLDatabase database = new MySQLDatabase();
-        String equalsPrimaryKeyString = database.buildEqualsPrimaryKeyString(model, planet);
+        String equalsPrimaryKeyString = database.buildEqualsPrimaryKeyString(model, planet, new SqlData());
 
-        assertEquals("frog='123'", equalsPrimaryKeyString);
+        assertEquals("frog=?", equalsPrimaryKeyString);
     }
 }

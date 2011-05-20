@@ -1,5 +1,7 @@
 package com.elgoooog.podb.loader;
 
+import com.elgoooog.podb.model.Column;
+import com.elgoooog.podb.model.ModelHelper;
 import com.elgoooog.podb.test.AnotherPlanet;
 import com.elgoooog.podb.test.Planet;
 import org.junit.Test;
@@ -35,9 +37,9 @@ public class ModelHelperTest {
         List<Column> columns = helper.getColumns(new Planet());
 
         assertEquals(3, columns.size());
-        assertTrue(columns.contains(new Column("name", Planet.class.getDeclaredField("name"), true)));
-        assertTrue(columns.contains(new Column("radius", Planet.class.getDeclaredField("radius"), false)));
-        assertTrue(columns.contains(new Column("population", Planet.class.getDeclaredField("population"), false)));
+        assertTrue(columns.contains(new Column("name", Planet.class.getDeclaredField("name"), true, false)));
+        assertTrue(columns.contains(new Column("radius", Planet.class.getDeclaredField("radius"), false, false)));
+        assertTrue(columns.contains(new Column("population", Planet.class.getDeclaredField("population"), false, false)));
     }
 
     @Test
@@ -46,8 +48,8 @@ public class ModelHelperTest {
         List<Column> columns = helper.getColumns(AnotherPlanet.class);
 
         assertEquals(3, columns.size());
-        assertTrue(columns.contains(new Column("name", AnotherPlanet.class.getDeclaredField("planetName"), true)));
-        assertTrue(columns.contains(new Column("radius", AnotherPlanet.class.getDeclaredField("planetRadius"), false)));
-        assertTrue(columns.contains(new Column("population", AnotherPlanet.class.getDeclaredField("planetPopulation"), false)));
+        assertTrue(columns.contains(new Column("name", AnotherPlanet.class.getDeclaredField("planetName"), true, false)));
+        assertTrue(columns.contains(new Column("radius", AnotherPlanet.class.getDeclaredField("planetRadius"), false, false)));
+        assertTrue(columns.contains(new Column("population", AnotherPlanet.class.getDeclaredField("planetPopulation"), false, false)));
     }
 }

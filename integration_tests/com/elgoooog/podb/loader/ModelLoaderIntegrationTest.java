@@ -1,6 +1,8 @@
 package com.elgoooog.podb.loader;
 
+import com.elgoooog.podb.model.Model;
 import com.elgoooog.podb.test.AnotherPlanet;
+import com.elgoooog.podb.test.JavaTypes;
 import com.elgoooog.podb.test.Planet;
 import org.junit.Test;
 
@@ -21,12 +23,14 @@ public class ModelLoaderIntegrationTest {
         TableModelContext context = loader.preLoad("config/podb.xml");
 
         Map<Class<?>, Model> modelMap = context.getModelMap();
-        assertEquals(2, modelMap.size());
+        assertEquals(3, modelMap.size());
 
         assertTrue(modelMap.containsKey(Planet.class));
         assertTrue(modelMap.containsKey(AnotherPlanet.class));
+        assertTrue(modelMap.containsKey(JavaTypes.class));
 
-        assertEquals("Planet",modelMap.get(Planet.class).getTable());
+        assertEquals("Planet", modelMap.get(Planet.class).getTable());
         assertEquals("Planet",modelMap.get(AnotherPlanet.class).getTable());
+        assertEquals("JavaTypes", modelMap.get(JavaTypes.class).getTable());
     }
 }

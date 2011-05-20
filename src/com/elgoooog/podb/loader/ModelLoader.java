@@ -1,5 +1,8 @@
 package com.elgoooog.podb.loader;
 
+import com.elgoooog.podb.model.Model;
+import com.elgoooog.podb.model.ModelHelper;
+
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
