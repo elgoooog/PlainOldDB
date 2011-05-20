@@ -7,7 +7,7 @@ import com.elgoooog.podb.annotation.Table;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/14/11
- *         Time: 12:53 PM
+ *         Time: 12:54 PM
  */
 @Table(name = "JavaTypes")
 public class JavaTypes {

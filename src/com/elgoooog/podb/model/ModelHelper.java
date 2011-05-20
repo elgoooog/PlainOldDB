@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/9/11
- *         Time: 7:22 AM
+ *         Time: 7:24 AM
  */
 public class ModelHelper {
     public String getTable(Object object) {

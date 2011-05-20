@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/17/11
- *         Time: 11:25 PM
+ *         Time: 11:26 PM
  */
 public class BooleanSqlField extends SqlField {
     private boolean value;

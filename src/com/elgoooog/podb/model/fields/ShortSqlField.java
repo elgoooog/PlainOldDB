@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/17/11
- *         Time: 11:27 PM
+ *         Time: 11:23 PM
  */
 public class ShortSqlField extends SqlField {
     private short value;

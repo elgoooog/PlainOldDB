@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/17/11
- *         Time: 11:12 PM
+ *         Time: 11:14 PM
  */
 public class DoubleSqlField extends SqlField {
     private double value;

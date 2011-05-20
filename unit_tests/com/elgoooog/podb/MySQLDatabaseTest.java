@@ -20,7 +20,7 @@ import static junit.framework.Assert.*;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/8/11
- *         Time: 5:33 PM
+ *         Time: 5:34 PM
  */
 public class MySQLDatabaseTest {
     @Test

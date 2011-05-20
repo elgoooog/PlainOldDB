@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/17/11
- *         Time: 11:11 PM
+ *         Time: 11:14 PM
  */
 public class FloatSqlField extends SqlField {
     private float value;

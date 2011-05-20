@@ -66,8 +66,8 @@ public class DatabaseIntegrationTest {
 
     @Test
     public void testUpdate_javaTypes() throws Exception {
-        JavaTypes javaTypes = new JavaTypes(12345, 123456789L, 4.13, 6.45f, (byte)-21, false, 'A',
-                (short)112, new byte[]{(byte)15, (byte)7}, "hello world");
+        JavaTypes javaTypes = new JavaTypes(12345, 123456789L, 4.13, 6.45f, (byte)-21, false, 'A', (short)112,
+                new byte[]{(byte)15, (byte)7}, "hello world");
         javaTypes.setId(1);
         database.update(javaTypes);
     }

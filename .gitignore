@@ -1,5 +1,5 @@
 .idea/
-*.class
 *.iml
+*.class
 *.properties
 lib/mysql-connector-java*.jar

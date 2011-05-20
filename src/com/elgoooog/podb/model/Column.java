@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/9/11
- *         Time: 7:24 AM
+ *         Time: 7:25 AM
  */
 public class Column {
     private String dbColumn;

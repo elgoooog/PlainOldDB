@@ -5,7 +5,7 @@ import org.junit.Test;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/20/11
- *         Time: 12:23 AM
+ *         Time: 12:24 AM
  */
 public class PropertyLoaderTest {
     @Test

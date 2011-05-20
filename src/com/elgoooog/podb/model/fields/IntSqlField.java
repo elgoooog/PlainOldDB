@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/17/11
- *         Time: 12:23 AM
+ *         Time: 12:26 AM
  */
 public class IntSqlField extends SqlField {
     private int value;

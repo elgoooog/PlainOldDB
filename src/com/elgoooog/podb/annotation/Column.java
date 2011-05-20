@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/4/11
- *         Time: 7:29 PM
+ *         Time: 7:30 PM
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

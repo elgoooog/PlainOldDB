@@ -5,7 +5,7 @@ import java.util.Collection;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/4/11
- *         Time: 7:35 PM
+ *         Time: 7:36 PM
  */
 public interface Database {
     public static final String MYSQL = MySQLDatabase.DRIVER;

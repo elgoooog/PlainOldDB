@@ -14,7 +14,7 @@ import static junit.framework.Assert.assertNotNull;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/9/11
- *         Time: 9:48 PM
+ *         Time: 9:45 PM
  */
 public class AnnotationUtilsTest {
     @Test

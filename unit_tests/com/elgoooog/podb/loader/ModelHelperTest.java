@@ -14,7 +14,7 @@ import static junit.framework.Assert.assertTrue;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/9/11
- *         Time: 9:10 PM
+ *         Time: 9:14 PM
  */
 public class ModelHelperTest {
     @Test

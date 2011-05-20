@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sql>
     <create>create table planet (name varchar(128) not null primary key, radius int(11) not null, population int(11) not null);(</create>
-    <create>create table lotsoftypes (pkey int(5) not null primary key auto_increment, bitt bit(5), tinyintt tinyint(5), smallintt smallint(5), mediumintt mediumint(5), intt int(5), integerr integer(5), bigintt bigint(5), reall real(5,5), doublee double(5,5), floatt float(5,5), decimall decimal(5), numericc numeric(5), datee date, timee time, timestampp timestamp, datetimee datetime, yearr year, charr char(5), varcharr varchar(5), binaryy binary(5), varbinaryy varbinary(5), tinyblobb tinyblob, blobb blob, mediumblobb mediumblob, longblobb longblob, tinytextt tinytext, textt text, mediumtextt mediumtext, longtextt longtext, enumm enum('v1','v2','v3'), sett set('s1','s2','s3'));</create>
+    <create>create table javatypes (id int(5) not null primary key auto_increment, intt int(5), longg bigint(5), doublee double(20,10), floatt float(20,10), bytee tinyint(5), booleann bit(1), charr char(5), shortt smallint(5), blobb blob, stringg varchar(255));</create>
 </sql>

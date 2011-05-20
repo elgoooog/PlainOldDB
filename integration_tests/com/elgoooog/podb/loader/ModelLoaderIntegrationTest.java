@@ -21,8 +21,8 @@ public class ModelLoaderIntegrationTest {
     public void preLoadTest() throws Exception {
         ModelLoader loader = new ModelLoader();
         TableModelContext context = loader.preLoad("config/podb.xml");
-
         Map<Class<?>, Model> modelMap = context.getModelMap();
+
         assertEquals(3, modelMap.size());
 
         assertTrue(modelMap.containsKey(Planet.class));

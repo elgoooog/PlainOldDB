@@ -17,7 +17,7 @@ import java.util.*;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/4/11
- *         Time: 7:37 PM
+ *         Time: 7:38 PM
  */
 public class MySQLDatabase implements Database {
     static final String DRIVER = "com.mysql.jdbc.Driver";

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/9/11
- *         Time: 7:14 AM
+ *         Time: 7:15 AM
  */
 public class Model {
     private String table;

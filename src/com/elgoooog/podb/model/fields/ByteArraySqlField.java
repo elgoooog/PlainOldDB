@@ -7,7 +7,7 @@ import java.sql.SQLException;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/17/11
- *         Time: 11:29 PM
+ *         Time: 11:26 PM
  */
 public class ByteArraySqlField extends SqlField {
     private byte[] value;

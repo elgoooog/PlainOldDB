@@ -17,7 +17,7 @@ import static junit.framework.Assert.assertTrue;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/8/11
- *         Time: 8:09 PM
+ *         Time: 8:04 PM
  */
 public class ModelLoaderTest {
     @Test

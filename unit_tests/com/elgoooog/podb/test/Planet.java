@@ -7,7 +7,7 @@ import com.elgoooog.podb.annotation.Table;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/4/11
- *         Time: 8:10 PM
+ *         Time: 8:13 PM
  */
 @Table
 public class Planet {

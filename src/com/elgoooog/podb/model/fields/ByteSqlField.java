@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/17/11
- *         Time: 11:14 PM
+ *         Time: 11:16 PM
  */
 public class ByteSqlField extends SqlField {
     private byte value;

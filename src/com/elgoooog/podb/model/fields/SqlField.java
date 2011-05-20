@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * @author Nicholas Hauschild
  *         Date: 5/17/11
- *         Time: 12:22 AM
+ *         Time: 12:25 AM
  */
 public abstract class SqlField {
     protected int index;
