@@ -1,5 +1,6 @@
 package com.elgoooog.podb;
 
+import com.elgoooog.podb.model.binding.*;
 import com.elgoooog.podb.test.AnotherPlanet;
 import com.elgoooog.podb.test.JavaTypes;
 import com.elgoooog.podb.test.Planet;
@@ -21,6 +22,16 @@ public class DatabaseIntegrationTest {
 
     @Before
     public void initDatabase() throws Exception {
+        Binding.addBinding(new IntBinding());
+        Binding.addBinding(new LongBinding());
+        Binding.addBinding(new FloatBinding());
+        Binding.addBinding(new DoubleBinding());
+        Binding.addBinding(new CharBinding());
+        Binding.addBinding(new ByteBinding());
+        Binding.addBinding(new ShortBinding());
+        Binding.addBinding(new BooleanBinding());
+        Binding.addBinding(new StringBinding());
+        Binding.addBinding(new ByteArrayBinding());
         database = new MySQLDatabase();
     }
 

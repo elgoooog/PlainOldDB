@@ -2,6 +2,7 @@ package com.elgoooog.podb.loader;
 
 import com.elgoooog.podb.model.Model;
 import com.elgoooog.podb.model.ModelHelper;
+import com.elgoooog.podb.model.binding.Binding;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -31,8 +32,10 @@ public class ModelLoader {
     }
 
     public TableModelContext preLoad(InputStream stream) {
-        List<String> packages = parse(stream);
-        List<Class<?>> classes = preLoadPackages(packages);
+       Map<String, List<String>> config = parse(stream);
+        List<Class<?>> classes = getClassesFromPackages(config.get("package"));
+        List<Class<?>> bindings = getClassesFromPackages(config.get("binding"));
+        loadBindings(bindings);
 
         Map<Class<?>, Model> models = new HashMap<Class<?>, Model>();
         for(Class<?> clazz : classes) {
@@ -43,14 +46,14 @@ public class ModelLoader {
         return new TableModelContext(models);
     }
 
-    protected List<String> parse(InputStream stream) {
+    protected Map<String, List<String>> parse(InputStream stream) {
         XMLStreamReader streamReader = null;
-        List<String> packages = null;
+        Map<String, List<String>> config = null;
         try {
             XMLInputFactory inputFactory = XMLInputFactory.newInstance();
             streamReader = inputFactory.createXMLStreamReader(stream);
 
-            packages = parse(streamReader);
+            config = parse(streamReader);
         } catch (XMLStreamException e) {
             throw new RuntimeException("failed to parse stream", e);
         } finally {
@@ -62,12 +65,16 @@ public class ModelLoader {
                 // tough luck
             }
         }
-        return packages;
+        return config;
     }
 
-    protected List<String> parse(XMLStreamReader streamReader) throws XMLStreamException {
+    protected Map<String, List<String>> parse(XMLStreamReader streamReader) throws XMLStreamException {
         String currentElement;
+        Map<String, List<String>> config = new HashMap<String, List<String>>();
         List<String> packages = new ArrayList<String>();
+        List<String> bindingsPackages = new ArrayList<String>();
+        config.put("package", packages);
+        config.put("binding", bindingsPackages);
 
         while(streamReader.hasNext()) {
             switch(streamReader.next()) {
@@ -76,14 +83,17 @@ public class ModelLoader {
                     if("package".equalsIgnoreCase(currentElement)) {
                         packages.add(streamReader.getElementText());
                     }
+                    else if("binding".equalsIgnoreCase(currentElement)) {
+                        bindingsPackages.add(streamReader.getElementText());
+                    }
                 default:
                 // do nothing
             }
         }
-        return packages;
+        return config;
     }
 
-    protected List<Class<?>> preLoadPackages(List<String> packages) {
+    protected List<Class<?>> getClassesFromPackages(List<String> packages) {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         List<Class<?>> classes = new ArrayList<Class<?>>();
         for(String packageName : packages) {
@@ -124,6 +134,17 @@ public class ModelLoader {
             }
         }
         return classes;
+    }
+
+    protected void loadBindings(List<Class<?>> bindings) {
+        for(Class<?> bindingClazz : bindings) {
+            try {
+                Binding binding = (Binding) bindingClazz.newInstance();
+                Binding.addBinding(binding);
+            } catch(Exception e) {
+                //continue on exceptions
+            }
+        }
     }
 
     protected Model preLoadClass(Class<?> clazz) {

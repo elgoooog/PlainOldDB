@@ -4,13 +4,13 @@ import com.elgoooog.podb.annotation.Column;
 import com.elgoooog.podb.loader.TableModelContext;
 import com.elgoooog.podb.model.Model;
 import com.elgoooog.podb.model.SqlData;
-import com.elgoooog.podb.model.fields.*;
+import com.elgoooog.podb.model.binding.Binding;
+import com.elgoooog.podb.model.fields.SqlField;
 import com.elgoooog.podb.util.PropertyLoader;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.*;
 
@@ -153,25 +153,8 @@ public class MySQLDatabase implements Database {
                 Field field = entry.getValue();
                 field.setAccessible(true);
                 Class<?> type = field.getType();
-                if(int.class.equals(type)) {
-                    field.set(t, rs.getInt(entry.getKey()));
-                } else if(short.class.equals(type)) {
-                    field.set(t, rs.getShort(entry.getKey()));
-                } else if(byte.class.equals(type)) {
-                    field.set(t, rs.getByte(entry.getKey()));
-                } else if(float.class.equals(type)) {
-                    field.set(t, rs.getFloat(entry.getKey()));
-                } else if(long.class.equals(type)) {
-                    field.set(t, rs.getLong(entry.getKey()));
-                } else if(double.class.equals(type)) {
-                    field.set(t, rs.getDouble(entry.getKey()));
-                } else if(boolean.class.equals(type)) {
-                    field.set(t, rs.getBoolean(entry.getKey()));
-                } else if(char.class.equals(type)) {
-                    field.set(t, (char)rs.getByte(entry.getKey()));
-                } else if(String.class.equals(type)) {
-                    field.set(t, rs.getString(entry.getKey()));
-                }
+                Binding binding = Binding.getBinding(type);
+                field.set(t, binding.getValue(rs, entry.getKey()));
             }
             results.add(t);
         }
@@ -256,29 +239,10 @@ public class MySQLDatabase implements Database {
 
     protected void addField(SqlData sqlData, Field field, Object crudObject, int index) {
         field.setAccessible(true);
-        Type type = field.getType();
+        Class<?> type = field.getType();
         try {
-            if(int.class.equals(type)) {
-                sqlData.addSqlField(new IntSqlField(index, (Integer) field.get(crudObject)));
-            } else if(long.class.equals(type)) {
-                sqlData.addSqlField(new LongSqlField(index, (Long) field.get(crudObject)));
-            } else if(char.class.equals(type)) {
-                sqlData.addSqlField(new CharSqlField(index, (Character) field.get(crudObject)));
-            } else if(float.class.equals(type)) {
-                sqlData.addSqlField(new FloatSqlField(index, (Float) field.get(crudObject)));
-            } else if(double.class.equals(type)) {
-                sqlData.addSqlField(new DoubleSqlField(index, (Double) field.get(crudObject)));
-            } else if(byte.class.equals(type)) {
-                sqlData.addSqlField(new ByteSqlField(index, (Byte) field.get(crudObject)));
-            } else if(boolean.class.equals(type)) {
-                sqlData.addSqlField(new BooleanSqlField(index, (Boolean) field.get(crudObject)));
-            } else if(short.class.equals(type)) {
-                sqlData.addSqlField(new ShortSqlField(index, (Short) field.get(crudObject)));
-            } else if(byte[].class.equals(type)) {
-                sqlData.addSqlField(new ByteArraySqlField(index, (byte[]) field.get(crudObject)));
-            } else if(String.class.equals(type)) {
-                sqlData.addSqlField(new StringSqlField(index, (String) field.get(crudObject)));
-            }
+            Binding binding = Binding.getBinding(type);
+            sqlData.addSqlField(binding.newSqlField(field.get(crudObject), index));
         } catch(IllegalAccessException e) {
             throw new RuntimeException(e);
         }

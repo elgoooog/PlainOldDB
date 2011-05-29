@@ -2,4 +2,6 @@
 <sql>
     <create>create table planet (name varchar(128) not null primary key, radius int(11) not null, population int(11) not null);(</create>
     <create>create table javatypes (id int(5) not null primary key auto_increment, intt int(5), longg bigint(5), doublee double(20,10), floatt float(20,10), bytee tinyint(5), booleann bit(1), charr char(5), shortt smallint(5), blobb blob, stringg varchar(255));</create>
+    <create>create table held (id int(5) not null primary key, name varchar(255));(</create>
+    <create>mysql> create table holder (id int(5) not null primary key, name varchar(255), held_id int(5), foreign key (held_id) references held(id) on update cascade on delete restrict);(</create>
 </sql>

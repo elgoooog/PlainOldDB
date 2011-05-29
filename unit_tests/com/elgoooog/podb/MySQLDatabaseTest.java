@@ -5,11 +5,13 @@ import com.elgoooog.podb.loader.TableModelContext;
 import com.elgoooog.podb.model.Column;
 import com.elgoooog.podb.model.Model;
 import com.elgoooog.podb.model.SqlData;
+import com.elgoooog.podb.model.binding.*;
 import com.elgoooog.podb.model.fields.IntSqlField;
 import com.elgoooog.podb.model.fields.SqlField;
 import com.elgoooog.podb.model.fields.StringSqlField;
 import com.elgoooog.podb.test.AnotherPlanet;
 import com.elgoooog.podb.test.Planet;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
@@ -23,6 +25,20 @@ import static junit.framework.Assert.*;
  *         Time: 5:34 PM
  */
 public class MySQLDatabaseTest {
+    @Before
+    public void setupBindings() throws Exception {
+        Binding.addBinding(new IntBinding());
+        Binding.addBinding(new LongBinding());
+        Binding.addBinding(new FloatBinding());
+        Binding.addBinding(new DoubleBinding());
+        Binding.addBinding(new CharBinding());
+        Binding.addBinding(new ByteBinding());
+        Binding.addBinding(new ShortBinding());
+        Binding.addBinding(new BooleanBinding());
+        Binding.addBinding(new StringBinding());
+        Binding.addBinding(new ByteArrayBinding());
+    }
+
     @Test
     public void getModelTest_object() throws Exception {
         Map<Class<?>, Model> modelMap = new HashMap<Class<?>, Model>();

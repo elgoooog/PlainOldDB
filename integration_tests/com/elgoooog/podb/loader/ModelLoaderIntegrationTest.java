@@ -23,7 +23,7 @@ public class ModelLoaderIntegrationTest {
         TableModelContext context = loader.preLoad("config/podb.xml");
         Map<Class<?>, Model> modelMap = context.getModelMap();
 
-        assertEquals(3, modelMap.size());
+        assertEquals(5, modelMap.size());
 
         assertTrue(modelMap.containsKey(Planet.class));
         assertTrue(modelMap.containsKey(AnotherPlanet.class));

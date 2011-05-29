@@ -3,5 +3,7 @@
     <config>
         <!-- package for classes to preload -->
         <package>com.elgoooog.podb.test</package>
+        <!-- package for bindings -->
+        <binding>com.elgoooog.podb.model.binding</binding>
     </config>
 </podb>
