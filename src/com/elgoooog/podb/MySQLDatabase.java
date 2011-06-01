@@ -154,7 +154,7 @@ public class MySQLDatabase implements Database {
                 field.setAccessible(true);
                 Class<?> type = field.getType();
                 Binding binding = Binding.getBinding(type);
-                field.set(t, binding.getValue(rs, entry.getKey()));
+                field.set(t, binding.getValue(rs, entry.getKey(), this));
             }
             results.add(t);
         }

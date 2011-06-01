@@ -1,9 +1,8 @@
 package com.elgoooog.podb;
 
 import com.elgoooog.podb.model.binding.*;
-import com.elgoooog.podb.test.AnotherPlanet;
-import com.elgoooog.podb.test.JavaTypes;
-import com.elgoooog.podb.test.Planet;
+import com.elgoooog.podb.test.*;
+import com.elgoooog.podb.test.binding.HeldBinding;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,6 +31,7 @@ public class DatabaseIntegrationTest {
         Binding.addBinding(new BooleanBinding());
         Binding.addBinding(new StringBinding());
         Binding.addBinding(new ByteArrayBinding());
+        Binding.addBinding(new HeldBinding());
         database = new MySQLDatabase();
     }
 
@@ -88,5 +88,50 @@ public class DatabaseIntegrationTest {
         JavaTypes javaTypes = new JavaTypes();
         javaTypes.setId(1);
         database.delete(javaTypes);
+    }
+
+    @Test
+    public void testCreate_holder() {
+        Held held = new Held(1, "held1");
+        database.create(held);
+        Holder holder = new Holder(1, "holder1", held);
+        database.create(holder);
+    }
+
+    @Test
+    public void testRead_holder() {
+        Collection<Holder> holders = database.read(Holder.class);
+        assertEquals(1, holders.size());
+    }
+
+    @Test
+    public void testRead_checkHeldValues() {
+        Collection<Holder> holders = database.read(Holder.class);
+        assertEquals(1, holders.size());
+
+        Holder holder = holders.iterator().next();
+        assertEquals(1, holder.getId());
+        assertEquals("holder1", holder.getName());
+
+        Held held = holder.getHeld();
+        assertEquals(1, held.getId());
+        assertEquals("held1", held.getName());
+    }
+
+    @Test
+    public void testUpdate_holder() {
+        Held held = new Held(2, "held2");
+        database.create(held);
+        Holder holder = new Holder(1, "holder1", held);
+        database.update(holder);
+    }
+
+    @Test
+    public void testDelete_holder() {
+        Held held = new Held(1, "held1");
+        Holder holder = new Holder(1, "holder1", held);
+        database.delete(holder);
+        database.delete(held);
+        database.delete(new Held(2, ""));
     }
 }

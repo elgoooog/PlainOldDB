@@ -1,5 +1,6 @@
 package com.elgoooog.podb.model.binding;
 
+import com.elgoooog.podb.Database;
 import com.elgoooog.podb.model.fields.SqlField;
 import com.elgoooog.podb.model.fields.StringSqlField;
 
@@ -18,7 +19,7 @@ public class StringBinding extends Binding {
     }
 
     @Override
-    public Object getValue(ResultSet rs, String key) throws SQLException {
+    public Object getValue(ResultSet rs, String key, Database database) throws SQLException {
         return rs.getString(key);
     }
 
