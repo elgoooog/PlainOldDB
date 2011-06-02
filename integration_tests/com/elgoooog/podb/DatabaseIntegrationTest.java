@@ -1,7 +1,7 @@
 package com.elgoooog.podb;
 
 import com.elgoooog.podb.loader.ModelLoader;
-import com.elgoooog.podb.loader.TableModelContext;
+import com.elgoooog.podb.loader.PodbContext;
 import com.elgoooog.podb.test.objects.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class DatabaseIntegrationTest {
     @Before
     public void initDatabase() throws Exception {
         ModelLoader modelLoader = new ModelLoader();
-        TableModelContext context = modelLoader.loadConfiguration("config/podb.xml");
+        PodbContext context = modelLoader.loadConfiguration("config/podb.xml");
 //        Binding.addBinding(new IntBinding());
 //        Binding.addBinding(new LongBinding());
 //        Binding.addBinding(new FloatBinding());

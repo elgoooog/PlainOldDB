@@ -1,7 +1,7 @@
 package com.elgoooog.podb;
 
 import com.elgoooog.podb.annotation.Column;
-import com.elgoooog.podb.loader.TableModelContext;
+import com.elgoooog.podb.loader.PodbContext;
 import com.elgoooog.podb.model.Model;
 import com.elgoooog.podb.model.SqlData;
 import com.elgoooog.podb.model.binding.Binding;
@@ -26,7 +26,7 @@ public class MySQLDatabase implements Database {
     static final String USERNAME = System.getProperty("podb.db.username");
     static final String PASSWORD = System.getProperty("podb.db.password");
 
-    private TableModelContext tableModelContext;
+    private PodbContext podbContext;
 
     static {
         try {
@@ -37,11 +37,11 @@ public class MySQLDatabase implements Database {
     }
 
     public MySQLDatabase() {
-        tableModelContext = new TableModelContext();
+        podbContext = new PodbContext();
     }
 
-    public MySQLDatabase(TableModelContext context) {
-        tableModelContext = context;
+    public MySQLDatabase(PodbContext context) {
+        podbContext = context;
     }
 
     protected Model getModel(Object crudObject) {
@@ -49,7 +49,7 @@ public class MySQLDatabase implements Database {
     }
 
     protected Model getModel(Class<?> clazz) {
-        return tableModelContext.getModel(clazz);
+        return podbContext.getModel(clazz);
     }
 
     public void create(Object crudObject) {
@@ -153,7 +153,7 @@ public class MySQLDatabase implements Database {
                 Field field = entry.getValue();
                 field.setAccessible(true);
                 Class<?> type = field.getType();
-                Binding binding = tableModelContext.getBinding(type);
+                Binding binding = podbContext.getBinding(type);
                 field.set(t, binding.getValue(rs, entry.getKey(), this));
             }
             results.add(t);
@@ -241,7 +241,7 @@ public class MySQLDatabase implements Database {
         field.setAccessible(true);
         Class<?> type = field.getType();
         try {
-            Binding binding = tableModelContext.getBinding(type);
+            Binding binding = podbContext.getBinding(type);
             sqlData.addSqlField(binding.newSqlField(field.get(crudObject), index));
         } catch(IllegalAccessException e) {
             throw new RuntimeException(e);

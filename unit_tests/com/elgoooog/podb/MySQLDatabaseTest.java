@@ -2,7 +2,7 @@ package com.elgoooog.podb;
 
 import com.elgoooog.podb.exception.MissingAnnotationException;
 import com.elgoooog.podb.loader.ModelLoader;
-import com.elgoooog.podb.loader.TableModelContext;
+import com.elgoooog.podb.loader.PodbContext;
 import com.elgoooog.podb.model.Column;
 import com.elgoooog.podb.model.Model;
 import com.elgoooog.podb.model.SqlData;
@@ -25,7 +25,7 @@ import static junit.framework.Assert.*;
  *         Time: 5:34 PM
  */
 public class MySQLDatabaseTest {
-    private TableModelContext context;
+    private PodbContext context;
 
     @Before
     public void setupBindings() throws Exception {
@@ -47,7 +47,7 @@ public class MySQLDatabaseTest {
     public void getModelTest_object() throws Exception {
         Map<Class<?>, Model> modelMap = new HashMap<Class<?>, Model>();
         modelMap.put(Planet.class, new Model());
-        TableModelContext context = new TableModelContext(modelMap, null);
+        PodbContext context = new PodbContext(modelMap, null);
         MySQLDatabase database = new MySQLDatabase(context);
         assertNotNull(database.getModel(new Planet()));
         assertNotNull(database.getModel(new AnotherPlanet()));
@@ -57,7 +57,7 @@ public class MySQLDatabaseTest {
     public void getModelTest_class() throws Exception {
         Map<Class<?>, Model> modelMap = new HashMap<Class<?>, Model>();
         modelMap.put(AnotherPlanet.class, new Model());
-        TableModelContext context = new TableModelContext(modelMap, null);
+        PodbContext context = new PodbContext(modelMap, null);
         MySQLDatabase database = new MySQLDatabase(context);
         assertNotNull(database.getModel(AnotherPlanet.class));
         assertNotNull(database.getModel(Planet.class));

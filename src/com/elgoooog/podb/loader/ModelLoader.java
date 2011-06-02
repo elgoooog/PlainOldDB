@@ -19,11 +19,11 @@ import java.util.*;
 public class ModelLoader {
     private static ModelHelper modelHelper = new ModelHelper();
 
-    public TableModelContext loadConfiguration(String fileLocation) {
+    public PodbContext loadConfiguration(String fileLocation) {
         return loadConfiguration(new File(fileLocation));
     }
 
-    public TableModelContext loadConfiguration(File file) {
+    public PodbContext loadConfiguration(File file) {
         try {
             return loadConfiguration(new FileInputStream(file));
         } catch (FileNotFoundException e) {
@@ -31,7 +31,7 @@ public class ModelLoader {
         }
     }
 
-    public TableModelContext loadConfiguration(InputStream stream) {
+    public PodbContext loadConfiguration(InputStream stream) {
         Map<String, List<String>> config = parse(stream);
         List<Class<?>> classes = getClassesFromPackages(config.get("model"));
         List<Class<?>> bindings = getClassesFromPackages(config.get("binding"));
@@ -52,7 +52,7 @@ public class ModelLoader {
             }
         }
 
-        return new TableModelContext(models, bindingMap);
+        return new PodbContext(models, bindingMap);
     }
 
     protected Map<String, List<String>> parse(InputStream stream) {

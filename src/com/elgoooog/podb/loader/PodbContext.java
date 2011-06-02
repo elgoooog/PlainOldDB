@@ -11,16 +11,16 @@ import java.util.Map;
  *         Date: 5/10/11
  *         Time: 7:23 AM
  */
-public class TableModelContext {
+public class PodbContext {
     private Map<Class<?>, Model> modelMap;
     private Map<Class<?>, Binding> bindings;
 
-    public TableModelContext() {
+    public PodbContext() {
         modelMap = new HashMap<Class<?>, Model>();
         bindings = new HashMap<Class<?>, Binding>();
     }
 
-    public TableModelContext(Map<Class<?>, Model> _modelMap, Map<Class<?>, Binding> _bindings) {
+    public PodbContext(Map<Class<?>, Model> _modelMap, Map<Class<?>, Binding> _bindings) {
         modelMap = _modelMap;
         bindings = _bindings;
     }

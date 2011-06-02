@@ -13,10 +13,10 @@ import static junit.framework.Assert.assertNotNull;
  *         Date: 5/12/11
  *         Time: 11:54 PM
  */
-public class TableModelContextTest {
+public class PodbContextTest {
     @Test
     public void getModelTest_object() throws Exception {
-        TableModelContext context = new TableModelContext();
+        PodbContext context = new PodbContext();
         Model model = context.getModel(new Planet());
         assertNotNull(model);
         assertEquals("Planet", model.getTable());
@@ -24,7 +24,7 @@ public class TableModelContextTest {
 
     @Test
     public void getModelTest_class() throws Exception {
-        TableModelContext context = new TableModelContext();
+        PodbContext context = new PodbContext();
         Model model = context.getModel(AnotherPlanet.class);
         assertNotNull(model);
         assertEquals("Planet", model.getTable());

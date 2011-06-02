@@ -20,7 +20,7 @@ public class ModelLoaderIntegrationTest {
     @Test
     public void preLoadTest() throws Exception {
         ModelLoader loader = new ModelLoader();
-        TableModelContext context = loader.loadConfiguration("config/podb.xml");
+        PodbContext context = loader.loadConfiguration("config/podb.xml");
         Map<Class<?>, Model> modelMap = context.getModelMap();
 
         assertEquals(5, modelMap.size());
