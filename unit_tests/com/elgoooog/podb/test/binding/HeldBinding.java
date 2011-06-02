@@ -3,7 +3,7 @@ package com.elgoooog.podb.test.binding;
 import com.elgoooog.podb.Database;
 import com.elgoooog.podb.model.binding.Binding;
 import com.elgoooog.podb.model.fields.SqlField;
-import com.elgoooog.podb.test.Held;
+import com.elgoooog.podb.test.objects.Held;
 import com.elgoooog.podb.test.fields.HeldSqlField;
 
 import java.sql.ResultSet;

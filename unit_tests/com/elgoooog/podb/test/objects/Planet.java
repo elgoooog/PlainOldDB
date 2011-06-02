@@ -1,4 +1,4 @@
-package com.elgoooog.podb.test;
+package com.elgoooog.podb.test.objects;
 
 import com.elgoooog.podb.annotation.Column;
 import com.elgoooog.podb.annotation.PrimaryKey;

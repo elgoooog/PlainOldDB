@@ -1,8 +1,8 @@
 package com.elgoooog.podb;
 
-import com.elgoooog.podb.model.binding.*;
-import com.elgoooog.podb.test.*;
-import com.elgoooog.podb.test.binding.HeldBinding;
+import com.elgoooog.podb.loader.ModelLoader;
+import com.elgoooog.podb.loader.TableModelContext;
+import com.elgoooog.podb.test.objects.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,18 +21,20 @@ public class DatabaseIntegrationTest {
 
     @Before
     public void initDatabase() throws Exception {
-        Binding.addBinding(new IntBinding());
-        Binding.addBinding(new LongBinding());
-        Binding.addBinding(new FloatBinding());
-        Binding.addBinding(new DoubleBinding());
-        Binding.addBinding(new CharBinding());
-        Binding.addBinding(new ByteBinding());
-        Binding.addBinding(new ShortBinding());
-        Binding.addBinding(new BooleanBinding());
-        Binding.addBinding(new StringBinding());
-        Binding.addBinding(new ByteArrayBinding());
-        Binding.addBinding(new HeldBinding());
-        database = new MySQLDatabase();
+        ModelLoader modelLoader = new ModelLoader();
+        TableModelContext context = modelLoader.loadConfiguration("config/podb.xml");
+//        Binding.addBinding(new IntBinding());
+//        Binding.addBinding(new LongBinding());
+//        Binding.addBinding(new FloatBinding());
+//        Binding.addBinding(new DoubleBinding());
+//        Binding.addBinding(new CharBinding());
+//        Binding.addBinding(new ByteBinding());
+//        Binding.addBinding(new ShortBinding());
+//        Binding.addBinding(new BooleanBinding());
+//        Binding.addBinding(new StringBinding());
+//        Binding.addBinding(new ByteArrayBinding());
+//        Binding.addBinding(new HeldBinding());
+        database = new MySQLDatabase(context);
     }
 
     @Test
@@ -60,13 +62,13 @@ public class DatabaseIntegrationTest {
     @Test
     public void deleteTest() throws Exception {
         database.delete(new Planet("Earth", 1,1));
-        database.delete(new AnotherPlanet("Mars", 1,1));
+        database.delete(new AnotherPlanet("Mars", 1, 1));
     }
 
     @Test
     public void testCreate_javaTypes() throws Exception {
-        database.create(new JavaTypes(10000, 1000000000L, 3.14, 4.56f, (byte)26, true, 'a',
-                (short)345, new byte[]{(byte)23, (byte)13}, "hello"));
+        database.create(new JavaTypes(10000, 1000000000L, 3.14, 4.56f, (byte) 26, true, 'a',
+                (short) 345, new byte[]{(byte) 23, (byte) 13}, "hello"));
     }
 
     @Test

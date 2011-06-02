@@ -1,6 +1,7 @@
 package com.elgoooog.podb.loader;
 
 import com.elgoooog.podb.model.Model;
+import com.elgoooog.podb.model.binding.Binding;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,13 +13,16 @@ import java.util.Map;
  */
 public class TableModelContext {
     private Map<Class<?>, Model> modelMap;
+    private Map<Class<?>, Binding> bindings;
 
     public TableModelContext() {
         modelMap = new HashMap<Class<?>, Model>();
+        bindings = new HashMap<Class<?>, Binding>();
     }
 
-    public TableModelContext(Map<Class<?>, Model> _modelMap) {
+    public TableModelContext(Map<Class<?>, Model> _modelMap, Map<Class<?>, Binding> _bindings) {
         modelMap = _modelMap;
+        bindings = _bindings;
     }
 
     public Model getModel(Class<?> clazz) {
@@ -36,5 +40,13 @@ public class TableModelContext {
 
     public Map<Class<?>, Model> getModelMap() {
         return modelMap;
+    }
+
+    public Binding getBinding(Class<?> clazz) {
+        return bindings.get(clazz);
+    }
+
+    public Map<Class<?>, Binding> getBindingsMap() {
+        return bindings;
     }
 }

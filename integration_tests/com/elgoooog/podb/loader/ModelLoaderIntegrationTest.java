@@ -1,9 +1,9 @@
 package com.elgoooog.podb.loader;
 
 import com.elgoooog.podb.model.Model;
-import com.elgoooog.podb.test.AnotherPlanet;
-import com.elgoooog.podb.test.JavaTypes;
-import com.elgoooog.podb.test.Planet;
+import com.elgoooog.podb.test.objects.AnotherPlanet;
+import com.elgoooog.podb.test.objects.JavaTypes;
+import com.elgoooog.podb.test.objects.Planet;
 import org.junit.Test;
 
 import java.util.Map;
@@ -20,7 +20,7 @@ public class ModelLoaderIntegrationTest {
     @Test
     public void preLoadTest() throws Exception {
         ModelLoader loader = new ModelLoader();
-        TableModelContext context = loader.preLoad("config/podb.xml");
+        TableModelContext context = loader.loadConfiguration("config/podb.xml");
         Map<Class<?>, Model> modelMap = context.getModelMap();
 
         assertEquals(5, modelMap.size());

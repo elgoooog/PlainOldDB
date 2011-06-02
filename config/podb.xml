@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <podb>
-    <config>
-        <!-- package for classes to preload -->
-        <package>com.elgoooog.podb.test</package>
-        <!-- package for bindings -->
-        <binding>com.elgoooog.podb.model.binding</binding>
-        <binding>com.elgoooog.podb.test.binding</binding>
-    </config>
+    <!-- package for bindings -->
+    <binding>com.elgoooog.podb.model.binding</binding>
+    <binding>com.elgoooog.podb.test.binding</binding>
+
+    <!-- package for podb objects to preload -->
+    <model>com.elgoooog.podb.test.objects</model>
 </podb>

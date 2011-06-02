@@ -2,8 +2,8 @@ package com.elgoooog.podb.util;
 
 import com.elgoooog.podb.annotation.Column;
 import com.elgoooog.podb.annotation.PrimaryKey;
-import com.elgoooog.podb.test.AnotherPlanet;
-import com.elgoooog.podb.test.Planet;
+import com.elgoooog.podb.test.objects.AnotherPlanet;
+import com.elgoooog.podb.test.objects.Planet;
 import org.junit.Test;
 
 import java.lang.reflect.Field;

@@ -1,9 +1,9 @@
 package com.elgoooog.podb.loader;
 
 import com.elgoooog.podb.model.Model;
-import com.elgoooog.podb.test.AnotherPlanet;
-import com.elgoooog.podb.test.JavaTypes;
-import com.elgoooog.podb.test.Planet;
+import com.elgoooog.podb.test.objects.AnotherPlanet;
+import com.elgoooog.podb.test.objects.JavaTypes;
+import com.elgoooog.podb.test.objects.Planet;
 import org.junit.Test;
 
 import java.io.File;
@@ -25,16 +25,16 @@ public class ModelLoaderTest {
     public void parseTest() throws Exception {
         ModelLoader modelLoader = new ModelLoader();
         Map<String, List<String>> configMap = modelLoader.parse(new FileInputStream(new File("config/podb.xml")));
-        List<String> packages = configMap.get("package");
+        List<String> packages = configMap.get("model");
         assertEquals(1, packages.size());
-        assertTrue(packages.contains("com.elgoooog.podb.test"));
+        assertTrue(packages.contains("com.elgoooog.podb.test.objects"));
     }
 
     @Test
     public void preLoadPackagesTest() throws Exception {
         ModelLoader modelLoader = new ModelLoader();
         List<Class<?>> classes = modelLoader.getClassesFromPackages(Collections.singletonList("com.elgoooog.podb.test"));
-        assertEquals(5, classes.size());
+        assertEquals(7, classes.size());
         assertTrue(classes.contains(Planet.class));
         assertTrue(classes.contains(AnotherPlanet.class));
         assertTrue(classes.contains(JavaTypes.class));
@@ -45,7 +45,7 @@ public class ModelLoaderTest {
         ModelLoader modelLoader = new ModelLoader();
         List<Class<?>> classes = modelLoader.findClasses(
                 new File("out/test/PlainOldDB/com/elgoooog/podb/test"), "com.elgoooog.podb.test");
-        assertEquals(5, classes.size());
+        assertEquals(7, classes.size());
         assertTrue(classes.contains(Planet.class));
         assertTrue(classes.contains(AnotherPlanet.class));
         assertTrue(classes.contains(JavaTypes.class));

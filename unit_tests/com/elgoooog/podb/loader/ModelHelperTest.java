@@ -2,8 +2,8 @@ package com.elgoooog.podb.loader;
 
 import com.elgoooog.podb.model.Column;
 import com.elgoooog.podb.model.ModelHelper;
-import com.elgoooog.podb.test.AnotherPlanet;
-import com.elgoooog.podb.test.Planet;
+import com.elgoooog.podb.test.objects.AnotherPlanet;
+import com.elgoooog.podb.test.objects.Planet;
 import org.junit.Test;
 
 import java.util.List;

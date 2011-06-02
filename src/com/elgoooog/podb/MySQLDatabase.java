@@ -153,7 +153,7 @@ public class MySQLDatabase implements Database {
                 Field field = entry.getValue();
                 field.setAccessible(true);
                 Class<?> type = field.getType();
-                Binding binding = Binding.getBinding(type);
+                Binding binding = tableModelContext.getBinding(type);
                 field.set(t, binding.getValue(rs, entry.getKey(), this));
             }
             results.add(t);
@@ -241,7 +241,7 @@ public class MySQLDatabase implements Database {
         field.setAccessible(true);
         Class<?> type = field.getType();
         try {
-            Binding binding = Binding.getBinding(type);
+            Binding binding = tableModelContext.getBinding(type);
             sqlData.addSqlField(binding.newSqlField(field.get(crudObject), index));
         } catch(IllegalAccessException e) {
             throw new RuntimeException(e);

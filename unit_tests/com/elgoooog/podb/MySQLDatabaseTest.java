@@ -1,16 +1,16 @@
 package com.elgoooog.podb;
 
 import com.elgoooog.podb.exception.MissingAnnotationException;
+import com.elgoooog.podb.loader.ModelLoader;
 import com.elgoooog.podb.loader.TableModelContext;
 import com.elgoooog.podb.model.Column;
 import com.elgoooog.podb.model.Model;
 import com.elgoooog.podb.model.SqlData;
-import com.elgoooog.podb.model.binding.*;
 import com.elgoooog.podb.model.fields.IntSqlField;
 import com.elgoooog.podb.model.fields.SqlField;
 import com.elgoooog.podb.model.fields.StringSqlField;
-import com.elgoooog.podb.test.AnotherPlanet;
-import com.elgoooog.podb.test.Planet;
+import com.elgoooog.podb.test.objects.AnotherPlanet;
+import com.elgoooog.podb.test.objects.Planet;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,25 +25,29 @@ import static junit.framework.Assert.*;
  *         Time: 5:34 PM
  */
 public class MySQLDatabaseTest {
+    private TableModelContext context;
+
     @Before
     public void setupBindings() throws Exception {
-        Binding.addBinding(new IntBinding());
-        Binding.addBinding(new LongBinding());
-        Binding.addBinding(new FloatBinding());
-        Binding.addBinding(new DoubleBinding());
-        Binding.addBinding(new CharBinding());
-        Binding.addBinding(new ByteBinding());
-        Binding.addBinding(new ShortBinding());
-        Binding.addBinding(new BooleanBinding());
-        Binding.addBinding(new StringBinding());
-        Binding.addBinding(new ByteArrayBinding());
+        ModelLoader loader = new ModelLoader();
+        context = loader.loadConfiguration("config/podb.xml");
+//        Binding.addBinding(new IntBinding());
+//        Binding.addBinding(new LongBinding());
+//        Binding.addBinding(new FloatBinding());
+//        Binding.addBinding(new DoubleBinding());
+//        Binding.addBinding(new CharBinding());
+//        Binding.addBinding(new ByteBinding());
+//        Binding.addBinding(new ShortBinding());
+//        Binding.addBinding(new BooleanBinding());
+//        Binding.addBinding(new StringBinding());
+//        Binding.addBinding(new ByteArrayBinding());
     }
 
     @Test
     public void getModelTest_object() throws Exception {
         Map<Class<?>, Model> modelMap = new HashMap<Class<?>, Model>();
         modelMap.put(Planet.class, new Model());
-        TableModelContext context = new TableModelContext(modelMap);
+        TableModelContext context = new TableModelContext(modelMap, null);
         MySQLDatabase database = new MySQLDatabase(context);
         assertNotNull(database.getModel(new Planet()));
         assertNotNull(database.getModel(new AnotherPlanet()));
@@ -53,7 +57,7 @@ public class MySQLDatabaseTest {
     public void getModelTest_class() throws Exception {
         Map<Class<?>, Model> modelMap = new HashMap<Class<?>, Model>();
         modelMap.put(AnotherPlanet.class, new Model());
-        TableModelContext context = new TableModelContext(modelMap);
+        TableModelContext context = new TableModelContext(modelMap, null);
         MySQLDatabase database = new MySQLDatabase(context);
         assertNotNull(database.getModel(AnotherPlanet.class));
         assertNotNull(database.getModel(Planet.class));
@@ -61,7 +65,7 @@ public class MySQLDatabaseTest {
 
     @Test(expected = MissingAnnotationException.class)
     public void getModelTest_notAnnotatedProperly() throws Exception {
-        MySQLDatabase database = new MySQLDatabase();
+        MySQLDatabase database = new MySQLDatabase(context);
         database.getModel(Object.class);
     }
 
@@ -82,7 +86,7 @@ public class MySQLDatabaseTest {
         model.setColumns(columns);
         model.setTable("bomb");
 
-        MySQLDatabase database = new MySQLDatabase();
+        MySQLDatabase database = new MySQLDatabase(context);
         SqlData sqlData = database.createSql(model, planet);
 
         assertEquals("insert into bomb (blah,frog,blog) values (?,?,?);", sqlData.getSql());
@@ -104,7 +108,7 @@ public class MySQLDatabaseTest {
         Model model = new Model();
         model.setTable("bomb");
 
-        MySQLDatabase database = new MySQLDatabase();
+        MySQLDatabase database = new MySQLDatabase(context);
         String readSql = database.readSql(model);
 
         assertEquals("select * from bomb;", readSql);
@@ -127,7 +131,7 @@ public class MySQLDatabaseTest {
         model.setColumns(columns);
         model.setTable("bomb");
 
-        MySQLDatabase database = new MySQLDatabase();
+        MySQLDatabase database = new MySQLDatabase(context);
         SqlData sqlData = database.updateSql(model, planet);
 
         assertEquals("update bomb set blah=?,frog=?,blog=? where frog=?;", sqlData.getSql());
@@ -161,7 +165,7 @@ public class MySQLDatabaseTest {
         model.setColumns(columns);
         model.setTable("bomb");
 
-        MySQLDatabase database = new MySQLDatabase();
+        MySQLDatabase database = new MySQLDatabase(context);
         SqlData sqlData = database.deleteSql(model, planet);
 
         assertEquals("delete from bomb where blog=?;", sqlData.getSql());
@@ -191,7 +195,7 @@ public class MySQLDatabaseTest {
         Model model = new Model();
         model.setColumns(columns);
 
-        MySQLDatabase database = new MySQLDatabase();
+        MySQLDatabase database = new MySQLDatabase(context);
         String equalsPrimaryKeyString = database.buildEqualsPrimaryKeyString(model, planet, new SqlData());
 
         assertEquals("frog=?", equalsPrimaryKeyString);

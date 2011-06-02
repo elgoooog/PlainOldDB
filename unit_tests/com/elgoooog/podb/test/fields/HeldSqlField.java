@@ -1,7 +1,7 @@
 package com.elgoooog.podb.test.fields;
 
 import com.elgoooog.podb.model.fields.SqlField;
-import com.elgoooog.podb.test.Held;
+import com.elgoooog.podb.test.objects.Held;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

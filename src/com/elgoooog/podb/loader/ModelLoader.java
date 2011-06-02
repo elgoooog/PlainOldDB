@@ -19,23 +19,22 @@ import java.util.*;
 public class ModelLoader {
     private static ModelHelper modelHelper = new ModelHelper();
 
-    public TableModelContext preLoad(String fileLocation) {
-        return preLoad(new File(fileLocation));
+    public TableModelContext loadConfiguration(String fileLocation) {
+        return loadConfiguration(new File(fileLocation));
     }
 
-    public TableModelContext preLoad(File file) {
+    public TableModelContext loadConfiguration(File file) {
         try {
-            return preLoad(new FileInputStream(file));
+            return loadConfiguration(new FileInputStream(file));
         } catch (FileNotFoundException e) {
             throw new RuntimeException("File not Found!", e);
         }
     }
 
-    public TableModelContext preLoad(InputStream stream) {
-       Map<String, List<String>> config = parse(stream);
-        List<Class<?>> classes = getClassesFromPackages(config.get("package"));
+    public TableModelContext loadConfiguration(InputStream stream) {
+        Map<String, List<String>> config = parse(stream);
+        List<Class<?>> classes = getClassesFromPackages(config.get("model"));
         List<Class<?>> bindings = getClassesFromPackages(config.get("binding"));
-        loadBindings(bindings);
 
         Map<Class<?>, Model> models = new HashMap<Class<?>, Model>();
         for(Class<?> clazz : classes) {
@@ -43,7 +42,17 @@ public class ModelLoader {
             models.put(clazz, model);
         }
 
-        return new TableModelContext(models);
+        Map<Class<?>, Binding> bindingMap = new HashMap<Class<?>, Binding>();
+        for(Class<?> clazz : bindings) {
+            try {
+                Binding binding = (Binding) clazz.newInstance();
+                bindingMap.put(binding.getBindingClass(), binding);
+            } catch(Exception e) {
+                //continue on exceptions
+            }
+        }
+
+        return new TableModelContext(models, bindingMap);
     }
 
     protected Map<String, List<String>> parse(InputStream stream) {
@@ -69,25 +78,36 @@ public class ModelLoader {
     }
 
     protected Map<String, List<String>> parse(XMLStreamReader streamReader) throws XMLStreamException {
-        String currentElement;
+        String currentElement = "";
         Map<String, List<String>> config = new HashMap<String, List<String>>();
-        List<String> packages = new ArrayList<String>();
-        List<String> bindingsPackages = new ArrayList<String>();
-        config.put("package", packages);
-        config.put("binding", bindingsPackages);
+        Stack<String> currentXPath = new Stack<String>();
 
         while(streamReader.hasNext()) {
-            switch(streamReader.next()) {
+            int current = streamReader.next();
+            switch(current) {
                 case XMLStreamReader.START_ELEMENT:
                     currentElement = streamReader.getName().getLocalPart();
-                    if("package".equalsIgnoreCase(currentElement)) {
-                        packages.add(streamReader.getElementText());
+                    currentXPath.push(currentElement);
+                    break;
+                case XMLStreamReader.END_ELEMENT:
+                    currentXPath.pop();
+                    if(currentXPath.size() > 0) {
+                        currentElement = currentXPath.peek();
                     }
-                    else if("binding".equalsIgnoreCase(currentElement)) {
-                        bindingsPackages.add(streamReader.getElementText());
+                    break;
+                case XMLStreamReader.CHARACTERS:
+                    if(!"podb".equals(currentElement)) {
+                        List<String> configValues = config.get(currentElement);
+                        if(configValues == null) {
+                            configValues = new ArrayList<String>();
+                            config.put(currentElement, configValues);
+                        }
+                        configValues.add(streamReader.getText().trim());
                     }
+                    break;
                 default:
-                // do nothing
+                    // do nothing
+                    break;
             }
         }
         return config;
@@ -134,17 +154,6 @@ public class ModelLoader {
             }
         }
         return classes;
-    }
-
-    protected void loadBindings(List<Class<?>> bindings) {
-        for(Class<?> bindingClazz : bindings) {
-            try {
-                Binding binding = (Binding) bindingClazz.newInstance();
-                Binding.addBinding(binding);
-            } catch(Exception e) {
-                //continue on exceptions
-            }
-        }
     }
 
     protected Model preLoadClass(Class<?> clazz) {
