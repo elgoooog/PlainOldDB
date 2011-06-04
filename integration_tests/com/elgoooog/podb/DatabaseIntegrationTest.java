@@ -1,6 +1,8 @@
 package com.elgoooog.podb;
 
+import com.elgoooog.podb.loader.ConfigurationParser;
 import com.elgoooog.podb.loader.ModelLoader;
+import com.elgoooog.podb.loader.PackageReader;
 import com.elgoooog.podb.loader.PodbContext;
 import com.elgoooog.podb.test.objects.*;
 import org.junit.Before;
@@ -21,19 +23,9 @@ public class DatabaseIntegrationTest {
 
     @Before
     public void initDatabase() throws Exception {
-        ModelLoader modelLoader = new ModelLoader();
+        ModelLoader modelLoader = new ModelLoader(new ConfigurationParser(), new PackageReader());
         PodbContext context = modelLoader.loadConfiguration("config/podb.xml");
-//        Binding.addBinding(new IntBinding());
-//        Binding.addBinding(new LongBinding());
-//        Binding.addBinding(new FloatBinding());
-//        Binding.addBinding(new DoubleBinding());
-//        Binding.addBinding(new CharBinding());
-//        Binding.addBinding(new ByteBinding());
-//        Binding.addBinding(new ShortBinding());
-//        Binding.addBinding(new BooleanBinding());
-//        Binding.addBinding(new StringBinding());
-//        Binding.addBinding(new ByteArrayBinding());
-//        Binding.addBinding(new HeldBinding());
+
         database = new MySQLDatabase(context);
     }
 

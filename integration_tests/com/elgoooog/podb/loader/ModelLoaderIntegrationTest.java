@@ -19,7 +19,7 @@ import static junit.framework.Assert.assertTrue;
 public class ModelLoaderIntegrationTest {
     @Test
     public void preLoadTest() throws Exception {
-        ModelLoader loader = new ModelLoader();
+        ModelLoader loader = new ModelLoader(new ConfigurationParser(), new PackageReader());
         PodbContext context = loader.loadConfiguration("config/podb.xml");
         Map<Class<?>, Model> modelMap = context.getModelMap();
 

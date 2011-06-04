@@ -1,7 +1,9 @@
 package com.elgoooog.podb;
 
 import com.elgoooog.podb.exception.MissingAnnotationException;
+import com.elgoooog.podb.loader.ConfigurationParser;
 import com.elgoooog.podb.loader.ModelLoader;
+import com.elgoooog.podb.loader.PackageReader;
 import com.elgoooog.podb.loader.PodbContext;
 import com.elgoooog.podb.model.Column;
 import com.elgoooog.podb.model.Model;
@@ -29,18 +31,8 @@ public class MySQLDatabaseTest {
 
     @Before
     public void setupBindings() throws Exception {
-        ModelLoader loader = new ModelLoader();
+        ModelLoader loader = new ModelLoader(new ConfigurationParser(), new PackageReader());
         context = loader.loadConfiguration("config/podb.xml");
-//        Binding.addBinding(new IntBinding());
-//        Binding.addBinding(new LongBinding());
-//        Binding.addBinding(new FloatBinding());
-//        Binding.addBinding(new DoubleBinding());
-//        Binding.addBinding(new CharBinding());
-//        Binding.addBinding(new ByteBinding());
-//        Binding.addBinding(new ShortBinding());
-//        Binding.addBinding(new BooleanBinding());
-//        Binding.addBinding(new StringBinding());
-//        Binding.addBinding(new ByteArrayBinding());
     }
 
     @Test
